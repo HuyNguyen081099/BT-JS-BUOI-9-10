@@ -1,3 +1,4 @@
+// lấy đối từ từ form login
 function NhanVien (
     _taiKhoan,
     _hoTen,
