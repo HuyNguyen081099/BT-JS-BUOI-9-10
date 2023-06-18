@@ -34,13 +34,13 @@ function getThongTinNV(isEdit) {
     //     // alert('Mã sinh viên không được bỏ trống')
     //     getElement('#spanMaSV').innerHTML = 'Mã sinh viên không được bỏ trống'
     // }
-    
+
     var isValid = true
 
     // Kiểm tra TKNV
     isValid &=
         kiemTraChuoi(
-           nhanVien.taiKhoan,
+            nhanVien.taiKhoan,
             1,
             undefined,
             '#spantknv',
@@ -48,6 +48,17 @@ function getThongTinNV(isEdit) {
         ) &&
         kiemTraChuoi(nhanVien.taiKhoan, 6, 10, '#spantknv', 'Tài khoản từ 6 đến 10 ký tự') &&
         kiemTraMaNV(nhanVien.taiKhoan, dsnv.arrNV, isEdit, '#spantknv', 'Tài khoản đã tồn tại')
+
+
+
+    // isValid &=
+    //     kiemTraChuoi(
+    //         nhanVien.matKhau,
+    //         1,
+    //         undefined,
+    //         '#spanMk',
+    //         'Mật khẩu không được bỏ trống'
+    //     )
 
     // Kiểm tra tên nhân viên
     isValid &= kiemTraChuoi(
@@ -64,6 +75,7 @@ function getThongTinNV(isEdit) {
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
         'Email không đúng định dạng'
     )
+
 
     return isValid ? nhanVien : undefined
 }
@@ -97,7 +109,7 @@ function getThongTinNVUpdate(isEdit) {
     //     // alert('Mã sinh viên không được bỏ trống')
     //     getElement('#spanMaSV').innerHTML = 'Mã sinh viên không được bỏ trống'
     // }
-    
+
     var isValid = true
 
     // Kiểm tra tên nhân viên
@@ -125,11 +137,13 @@ function xoaThongtinNV() {
     getElement('#name').value = ""
     getElement('#email').value = ""
     getElement('#password').value = ""
-    getElement('#datepicker').value =""
+    getElement('#datepicker').value = ""
     getElement('#luongCB').value = ""
     getElement('#chucvu').value = ""
     getElement('#gioLam').value = ""
 }
+
+
 getElement('#btnThemNV').onclick = function () {
     // // lấy thông tin từ người dùng
     // var taiKhoan = getElement('#tknv').value
@@ -169,10 +183,10 @@ getElement('#btnThemNV').onclick = function () {
 
 
 // hiện trên UI
-function renderdsnv() {
+function renderdsnv(arrNV = dsnv.arrNV) {
     var content = ''
-    for (var i = 0; i < dsnv.arrNV.length; i++) {
-        var nv = dsnv.arrNV[i]
+    for (var i = 0; i < arrNV.length; i++) {
+        var nv = arrNV[i]
         content += `
                <tr>
                <td>${nv.taiKhoan}</td>
@@ -244,6 +258,21 @@ function getLocalStorage() {
         renderdsnv()
     }
 }
+// tìm nhân viên
+getElement('#searchName').addEventListener('keyup', function() {
+   
+    var valueSearch =  getElement('#searchName').value.toLowerCase();
+    // console.log('valueSerch: ', valueSearch);
+    var arrNVSearch = []
+    for(var i = 0; i < dsnv.arrNV.length; i++){
+        var xepLoai = dsnv.arrNV[i].xepLoai().toLowerCase();
+        if(xepLoai.indexOf(valueSearch) !== -1){
+            arrNVSearch.push(dsnv.arrNV[i])
+        }
+    }
+    // console.log('arrNVSearch: ', arrNVSearch);
+    renderdsnv(arrNVSearch)
+})
 
 
 // xóa nhân viên
@@ -265,7 +294,7 @@ function updateNV(taiKhoan) {
 
 
     getElement('#tknv').value = nv.taiKhoan
-    getElement('#tknv').disabled  = true
+    // getElement('#tknv').disabled  = true
     getElement('#name').value = nv.hoTen
     getElement('#email').value = nv.email
     getElement('#password').value = nv.matKhau
@@ -276,19 +305,21 @@ function updateNV(taiKhoan) {
 
 
     //lấy lại thông tin Nv sau khi chỉnh sửa xong
-    
+
     getElement('#btnCapNhat').onclick = function () {
         var nhanVien = getThongTinNVUpdate()
         //cập nhập lại NV
         dsnv.capNhatNV(nhanVien);
-        
+
 
         renderdsnv()
+        xoaThongtinNV(nhanVien)
 
         setLocalStorage()
     }
 
 }
+
 
 
 
