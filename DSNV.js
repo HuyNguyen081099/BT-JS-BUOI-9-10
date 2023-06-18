@@ -3,9 +3,23 @@ function DSNV () {
     this.arrNV = []
 
     this.themNV = function(nhanVien) {
-        this.arrNV.push(nhanVien)
+        let loaiNv = nhanVien.chucVu;
+        switch(loaiNv) {
+            case 'Sếp':
+                nhanVien.luongCoBan = nhanVien.luongCoBan * 3;
+                break;
+            case 'Trưởng phòng':
+                nhanVien.luongCoBan = nhanVien.luongCoBan * 2;
+                break;
+            default:
+                break;
+        }
+        this.arrNV.push(nhanVien);
+        $('#myModal').modal('toggle');
+        // getElement('#btnDong').onclick();
 
     }
+   
 
     this.timNV = function (maNhanVien) {
         var index = -1
@@ -47,7 +61,7 @@ function DSNV () {
         var index = this.timNV(nhanVien.taiKhoan)
         if (index !== -1){
             this.arrNV[index] = nhanVien
+            $('#myModal').modal('toggle');
         }
-
     }
 }

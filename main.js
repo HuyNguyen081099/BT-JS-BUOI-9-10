@@ -5,7 +5,7 @@ function getElement(selector) {
 var dsnv = new DSNV()
 
 
-function getThongTinNV() {
+function getThongTinNV(isEdit) {
     // Lấy thông tin từ user
     var taiKhoan = getElement('#tknv').value
     var hoTen = getElement('#name').value
@@ -34,8 +34,101 @@ function getThongTinNV() {
     //     // alert('Mã sinh viên không được bỏ trống')
     //     getElement('#spanMaSV').innerHTML = 'Mã sinh viên không được bỏ trống'
     // }
+    
+    var isValid = true
 
-    return nhanVien
+    // Kiểm tra TKNV
+    isValid &=
+        kiemTraChuoi(
+           nhanVien.taiKhoan,
+            1,
+            undefined,
+            '#spantknv',
+            'Tài khoản không được bỏ trống'
+        ) &&
+        kiemTraChuoi(nhanVien.taiKhoan, 6, 10, '#spantknv', 'Tài khoản từ 6 đến 10 ký tự') &&
+        kiemTraMaNV(nhanVien.taiKhoan, dsnv.arrNV, isEdit, '#spantknv', 'Tài khoản đã tồn tại')
+
+    // Kiểm tra tên nhân viên
+    isValid &= kiemTraChuoi(
+        nhanVien.hoTen,
+        1,
+        undefined,
+        '#spanname',
+        'Tên nhân viên không được bỏ trống'
+    )
+
+    isValid &= kiemTraPattern(
+        nhanVien.email,
+        '#spanemail',
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        'Email không đúng định dạng'
+    )
+
+    return isValid ? nhanVien : undefined
+}
+
+function getThongTinNVUpdate(isEdit) {
+    // Lấy thông tin từ user
+    var taiKhoan = getElement('#tknv').value
+    var hoTen = getElement('#name').value
+    var email = getElement('#email').value
+    var matKhau = getElement('#password').value
+    var ngayLam = getElement('#datepicker').value
+    var luongCoBan = getElement('#luongCB').value
+    var chucVu = getElement('#chucvu').value
+    var gioLam = getElement('#gioLam').value
+
+    // tạo đối tượng sinh viên từ thông tin lấy từ user
+    var nhanVien = new NhanVien(
+        taiKhoan,
+        hoTen,
+        email,
+        matKhau,
+        ngayLam,
+        luongCoBan,
+        chucVu,
+        gioLam,
+    )
+
+    // console.log('nhanVien: ', nhanVien)
+    // // console.log(sinhVien.maSV.trim();
+    // if (nhanVien.taiKhoan.trim().length < 1) {
+    //     // alert('Mã sinh viên không được bỏ trống')
+    //     getElement('#spanMaSV').innerHTML = 'Mã sinh viên không được bỏ trống'
+    // }
+    
+    var isValid = true
+
+    // Kiểm tra tên nhân viên
+    isValid &= kiemTraChuoi(
+        nhanVien.hoTen,
+        1,
+        undefined,
+        '#spanname',
+        'Tên nhân viên không được bỏ trống'
+    )
+
+    isValid &= kiemTraPattern(
+        nhanVien.email,
+        '#spanemail',
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        'Email không đúng định dạng'
+    )
+
+    return isValid ? nhanVien : undefined
+
+}
+
+function xoaThongtinNV() {
+    getElement('#tknv').value = ""
+    getElement('#name').value = ""
+    getElement('#email').value = ""
+    getElement('#password').value = ""
+    getElement('#datepicker').value =""
+    getElement('#luongCB').value = ""
+    getElement('#chucvu').value = ""
+    getElement('#gioLam').value = ""
 }
 getElement('#btnThemNV').onclick = function () {
     // // lấy thông tin từ người dùng
@@ -63,13 +156,13 @@ getElement('#btnThemNV').onclick = function () {
     // )
     var nhanVien = getThongTinNV()
     dsnv.themNV(nhanVien)
+    xoaThongtinNV(nhanVien)
     // console.log(dsnv.arrNV)
     //gọi lại hàm rendẻ để cập nhập thành công
     renderdsnv()
     // console.log(nhanVien.xepLoai())
     setLocalStorage()
 }
-
 
 
 
@@ -90,7 +183,7 @@ function renderdsnv() {
                <td>${nv.luongCoBan}</td>
                <td>${nv.xepLoai()}</td>
                <td>
-               <button class='btn btn-success mr-3' onclick="updateNV('${nv.taiKhoan}')">Edit</button>
+               <button class='btn btn-success mr-3' onclick="updateNV('${nv.taiKhoan}')" data-toggle="modal" data-target="#myModal">Edit</button>
                <button class='btn btn-danger' onclick="deleteNV('${nv.taiKhoan}')">Delete</button>
                </td>
                </tr>
@@ -166,13 +259,13 @@ function deleteNV(taiKhoan) {
     //  setLocalStorage()
 }
 function updateNV(taiKhoan) {
-    alert('phiền mentor nhấn vào nút thêm nhân viên để edit giúp em ^-^')
     var index = dsnv.timNV(taiKhoan)
     var nv = dsnv.arrNV[index]
     console.log('nv: ', nv)
 
 
     getElement('#tknv').value = nv.taiKhoan
+    getElement('#tknv').disabled  = true
     getElement('#name').value = nv.hoTen
     getElement('#email').value = nv.email
     getElement('#password').value = nv.matKhau
@@ -185,9 +278,10 @@ function updateNV(taiKhoan) {
     //lấy lại thông tin Nv sau khi chỉnh sửa xong
     
     getElement('#btnCapNhat').onclick = function () {
-        var nhanVien = getThongTinNV()
+        var nhanVien = getThongTinNVUpdate()
         //cập nhập lại NV
-        dsnv.capNhatNV(nhanVien)
+        dsnv.capNhatNV(nhanVien);
+        
 
         renderdsnv()
 

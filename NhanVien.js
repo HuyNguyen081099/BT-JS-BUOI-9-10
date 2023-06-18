@@ -9,7 +9,7 @@ function NhanVien (
     _chucVu,
     _gioLam
 ) {
-    ;(this.taiKhoan = _taiKhoan),
+    (this.taiKhoan = _taiKhoan),
         (this.hoTen =  _hoTen),
         (this.email = _email),
         (this.matKhau = _matKhau),
@@ -18,14 +18,16 @@ function NhanVien (
         (this.chucVu = _chucVu),
         (this.gioLam = _gioLam),
         (this.xepLoai = function () {
-            if (this.gioLam <= 120) {
-                return 'khá'
-            }else if (this.gioLam <= 200) {
-                return'giỏi'
+            if (this.gioLam < 160) {
+                return 'Nhân viên trung bình'
+            }else if (this.gioLam < 176) {
+                return'nhân viên khá'
             }
-            return 'xuất sắc'
-        })
-    
+            else if (this.gioLam < 192) {
+                return'nhân viên giỏi'
+            }
+            return 'nhân viên xuất sắc'
+        });
 }
 
 

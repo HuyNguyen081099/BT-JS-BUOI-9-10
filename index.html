@@ -124,9 +124,11 @@
 						<div class="row mb-3">
 							<div class="col">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Loại nhân viên" id="searchName">
+									<input type="text" class="form-control" placeholder="Loại nhân viên"
+										id="searchName">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="btnTimNV"><i class="fa fforma-search"></i></span>
+										<span class="input-group-text" id="btnTimNV"><i
+												class="fa fforma-search"></i></span>
 									</div>
 								</div>
 							</div>
@@ -142,7 +144,7 @@
 									<th>Họ và tên</th>
 									<th>Email</th>
 									<th>Ngày làm</th>
-									<th>Chức vụ</th>									
+									<th>Chức vụ</th>
 									<th>Tổng lương</th>
 									<th>Xếp loại</th>
 									<th><em class="fa fa-cog"></em></th>
@@ -205,6 +207,7 @@
 								</div>
 								<input type="text" name="tk" id="tknv" class="form-control input-sm"
 									placeholder="Tài khoản">
+								<span id="spantknv" class="text-danger"></span>
 							</div>
 
 							<span class="sp-thongbao" id="tbTKNV"></span>
@@ -217,6 +220,7 @@
 								</div>
 								<input type="name" name="name" id="name" class="form-control input-sm"
 									placeholder="Họ và tên">
+								<span id="spanname" class="text-danger"></span>
 							</div>
 							<span class="sp-thongbao" id="tbTen"></span>
 						</div>
@@ -228,6 +232,7 @@
 								</div>
 								<input type="email" name="email" id="email" class="form-control input-sm"
 									placeholder="Email">
+								<span id="spanemail" class="text-danger"></span>
 							</div>
 
 							<span class="sp-thongbao" id="tbEmail"></span>
@@ -240,6 +245,7 @@
 								</div>
 								<input type="password" name="password" id="password" class="form-control input-sm"
 									placeholder="Mật khẩu">
+								<span id="spanMK" class="text-danger"></span>
 							</div>
 							<span class="sp-thongbao" id="tbMatKhau"></span>
 						</div>
@@ -251,11 +257,12 @@
 								</div>
 								<input type="text" name="ngaylam" id="datepicker" class="form-control"
 									placeholder="Ngày làm">
+								<span id="spanngayLam" class="text-danger"></span>
 							</div>
 
 							<span class="sp-thongbao" id="tbNgay"></span>
 						</div>
-						
+
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -263,6 +270,7 @@
 								</div>
 								<input type="text" name="luongCB" id="luongCB" class="form-control input-sm"
 									placeholder="Lương cơ bản">
+								<span id="spanluongCB" class="text-danger"></span>
 							</div>
 							<span class="sp-thongbao" id="tbLuongCB"></span>
 						</div>
@@ -284,7 +292,8 @@
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+									<span class="input-group-text"><i class="fa fa-clock-o"
+											aria-hidden="true"></i></span>
 								</div>
 								<input type="text" name="gioLam" id="gioLam" class="form-control input-sm"
 									placeholder="Giờ làm">
@@ -333,10 +342,11 @@
 			});
 		});
 	</script>
-
+	<script src="./validation.js"></script>
 	<script src="./NhanVien.js"></script>
 	<script src="./DSNV.js"></script>
 	<script src="./main.js"></script>
+
 </body>
 
 </html>
