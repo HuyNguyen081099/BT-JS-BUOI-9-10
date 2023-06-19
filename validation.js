@@ -1,5 +1,5 @@
 function kiemTraChuoi(value, minLength, maxLength, selector, messErr) {
-    
+
     // Nếu như kiểm tra false
     if (value.trim().length < minLength || value.trim().length > Number(maxLength)) {
         getElement(selector).innerHTML = messErr

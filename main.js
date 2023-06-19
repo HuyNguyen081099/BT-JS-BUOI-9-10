@@ -80,6 +80,8 @@ function getThongTinNV(isEdit) {
     return isValid ? nhanVien : undefined
 }
 
+
+// cập nhật thồn tin nhân viên
 function getThongTinNVUpdate(isEdit) {
     // Lấy thông tin từ user
     var taiKhoan = getElement('#tknv').value
@@ -103,15 +105,8 @@ function getThongTinNVUpdate(isEdit) {
         gioLam,
     )
 
-    // console.log('nhanVien: ', nhanVien)
-    // // console.log(sinhVien.maSV.trim();
-    // if (nhanVien.taiKhoan.trim().length < 1) {
-    //     // alert('Mã sinh viên không được bỏ trống')
-    //     getElement('#spanMaSV').innerHTML = 'Mã sinh viên không được bỏ trống'
-    // }
 
     var isValid = true
-
     // Kiểm tra tên nhân viên
     isValid &= kiemTraChuoi(
         nhanVien.hoTen,
@@ -128,10 +123,13 @@ function getThongTinNVUpdate(isEdit) {
         'Email không đúng định dạng'
     )
 
+    //toán tử 3 ngôi (? tương tự if nếu đúng trả về nhân viên, : tương tự else sai sẽ là underfine)
     return isValid ? nhanVien : undefined
 
 }
 
+
+//xóa thông tin nhaVien nhập từ user
 function xoaThongtinNV() {
     getElement('#tknv').value = ""
     getElement('#name').value = ""
@@ -144,6 +142,7 @@ function xoaThongtinNV() {
 }
 
 
+// Thêm nhân viên
 getElement('#btnThemNV').onclick = function () {
     // // lấy thông tin từ người dùng
     // var taiKhoan = getElement('#tknv').value
@@ -154,8 +153,6 @@ getElement('#btnThemNV').onclick = function () {
     // var luongCoBan = getElement('#luongCB').value
     // var chucVu = getElement('#chucvu').value
     // var gioLam = getElement('#gioLam').value
-
-
 
     // // tạo đối tượng sinh viên từ thông tin lấy từ user
     // var nhanVien = new NhanVien(
@@ -205,6 +202,7 @@ function renderdsnv(arrNV = dsnv.arrNV) {
     }
     getElement('#tableDanhSach').innerHTML = content
 }
+
 // renderdssv()
 
 // Lưu danh sách nhân viên vào localStorage
@@ -227,8 +225,8 @@ function getLocalStorage() {
         var parseData = JSON.parse(data)
         // console.log('parseData: ', parseData)
 
-        // Tạo lại đối tượng sinhVien từ lớp đối SinhVien để lấy lại phương thức tinhDTB
-        //B1: tạo mảng rỗng để lưu dssv
+        // Tạo lại đối tượng sinhVien từ lớp đối nhanVien để lấy lại phương thức tinhDTB
+        //B1: tạo mảng rỗng để lưu dsnv
         var arr = []
 
         // B2: duyệt mảng đc lấy từ local
@@ -248,11 +246,11 @@ function getLocalStorage() {
                 gioLam,
             )
 
-            // thêm sinhVien vào mảng arr
+            // thêm nhanVien vào mảng arr
             arr.push(nhanVien)
         }
 
-        // gán giá trị cho mảng arrSV từ data lấy từ localStorage
+        // gán giá trị cho mảng arrNV từ data lấy từ localStorage
         dsnv.arrNV = arr
         console.log('arr: ', arr)
         renderdsnv()
@@ -304,7 +302,7 @@ function updateNV(taiKhoan) {
     getElement('#gioLam').value = nv.gioLam
 
 
-    //lấy lại thông tin Nv sau khi chỉnh sửa xong
+    //lấy lại thông tin NV sau khi chỉnh sửa xong
 
     getElement('#btnCapNhat').onclick = function () {
         var nhanVien = getThongTinNVUpdate()

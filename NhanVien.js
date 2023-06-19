@@ -19,14 +19,14 @@ function NhanVien (
         (this.gioLam = _gioLam),
         (this.xepLoai = function () {
             if (this.gioLam < 160) {
-                return 'Nhân viên trung bình'
+                return 'Trung bình'
             }else if (this.gioLam < 176) {
-                return'nhân viên khá'
+                return'Khá'
             }
             else if (this.gioLam < 192) {
-                return'nhân viên giỏi'
+                return'Giỏi'
             }
-            return 'nhân viên xuất sắc'
+            return 'Xuất sắc'
         });
 }
 
